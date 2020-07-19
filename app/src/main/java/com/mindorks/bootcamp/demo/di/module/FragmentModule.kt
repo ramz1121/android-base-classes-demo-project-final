@@ -2,11 +2,13 @@ package com.mindorks.bootcamp.demo.di.module
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.demo.data.local.DatabaseService
 import com.mindorks.bootcamp.demo.data.remote.NetworkService
 import com.mindorks.bootcamp.demo.di.ActivityContext
 import com.mindorks.bootcamp.demo.ui.base.BaseFragment
 import com.mindorks.bootcamp.demo.ui.home.HomeViewModel
+import com.mindorks.bootcamp.demo.ui.home.post.PostAdapter
 import com.mindorks.bootcamp.demo.utils.NetworkHelper
 import com.mindorks.bootcamp.demo.utils.ViewModelProviderFactory
 import dagger.Module
@@ -30,4 +32,10 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
             fragment, ViewModelProviderFactory(HomeViewModel::class) {
         HomeViewModel(compositeDisposable, networkHelper, databaseService, networkService)
     }).get(HomeViewModel::class.java)
+
+    @Provides
+    fun provideLinearLayoutManager() = LinearLayoutManager(fragment.context)
+
+    @Provides
+    fun providePostAdapter() = PostAdapter(fragment.lifecycle,ArrayList())
 }
